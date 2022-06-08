@@ -5,13 +5,14 @@
 // @description  description
 // @author       PityYouWeak
 // @match        *.torn.com/bazaar.php*
-// @updateURL    https://github.com/PityYouWeak/Torn/raw/main/BazaarAutoPricer/bazaarAutoPricer.user.js
 // @grant        GM_xmlhttpRequest
+// @updateURL    https://github.com/PityYouWeak/Torn/raw/main/BazaarAutoPricer/bazaarAutoPricer.user.js
 // ==/UserScript==
 
-const apikey = 'YOUR API KEY HERE'
+const apikey = '0KeRpCktf7v2D9pb'
 const callFromItemMarket = true
-const callFromBazaar = false
+const callFromBazaar = true
+const lessToTheMarketPrice = 10;
 
 const torn_api = async (args) => {
   const a = args.split('.');
@@ -46,7 +47,7 @@ var event = new Event('keyup')
 var APIERROR = false
 
 async function lmp(itemID) {
-  
+
   if(APIERROR === true) { alert("api ERROR"); return 'API key error' }
 
   let lowest_market_price = null
@@ -76,27 +77,26 @@ async function lmp(itemID) {
     }
   }
 
-  return lowest_market_price + 10
+  return lowest_market_price - lessToTheMarketPrice;
 }
 
 const observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
     for (const node of mutation.addedNodes) {
-      if (node.classList && node.classList.contains('input-money-group')) {
-        const li = node.closest('li.clearfix') || node.closest('li[id^=item]')
+      if (node.classList) {
         const input = node.querySelector('.input-money[type=text]')
-        if (li) {
-          const itemID = li.querySelector('img').src.split('items/')[1]
+        if (input) {
+          const itemID = input.parentElement?.parentElement.parentElement.parentElement.parentElement.querySelector('img').src.split('items/')[1];//li.querySelector('img').src.split('items/')[1]
           input.addEventListener('focus', function(e) {
-            if (this.id.includes('price-item')) this.value = ''
-            if (this.value === '') {
+              let hasRemove = this.parentElement.parentElement.parentElement.querySelector('[class^=remove]');
+              if (this.value === '' || hasRemove) {
               lmp(itemID).then((price) => {
-                  const hidden = node.querySelector('.input-money[type=hidden]')
-                  hidden.remove();
-                  var ev = new Event('input', { bubbles: true});
-                  ev.simulated = true;
-                  this.value = price;
-                  this.dispatchEvent(ev);
+                  let itemAmount = this.parentElement?.parentElement.parentElement.parentElement.parentElement.querySelector(".item-amount")?.textContent;
+                  let amount = this.parentElement.parentElement.parentElement.querySelector('.clear-all');
+                  hack(this,price);
+                  if (amount !== null)
+                    hack(amount,itemAmount);
+                  this.dispatchEvent(event);
               })
             }
           })
@@ -105,6 +105,19 @@ const observer = new MutationObserver((mutations) => {
     }
   }
 })
+
+function hack(inp,price)
+{
+    const input = inp;
+    input.value = price;
+    let event = new Event('input', { bubbles: true });
+    event.simulated = true;
+    let tracker = input._valueTracker;
+    if (tracker) {
+        tracker.setValue(1);
+    }
+    input.dispatchEvent(event);
+}
 
 const wrapper = document.querySelector('#bazaarRoot')
 observer.observe(wrapper, { subtree: true, childList: true })
