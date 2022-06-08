@@ -5,6 +5,7 @@
 // @description  description
 // @author       PityYouWeak
 // @match        *.torn.com/bazaar.php*
+// @updateURL    https://github.com/PityYouWeak/Torn/raw/main/BazaarAutoPricer/bazaarAutoPricer.js
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
