@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bazaar Auto Price - PityYouWeak
 // @namespace    PityYouWeak
-// @version      0.8
+// @version      0.9
 // @description  description
 // @author       PityYouWeak
 // @match        *.torn.com/bazaar.php*
@@ -9,7 +9,7 @@
 // @updateURL    https://github.com/PityYouWeak/Torn/raw/main/BazaarAutoPricer/bazaarAutoPricer.user.js
 // ==/UserScript==
 
-const apikey = '0KeRpCktf7v2D9pb'
+const apikey = 'YOUR API KEY'
 const callFromItemMarket = true
 const callFromBazaar = true
 const lessToTheMarketPrice = 10;
