@@ -9,7 +9,7 @@
 // @updateURL    https://github.com/PityYouWeak/Torn/raw/main/BazaarAutoPricer/bazaarAutoPricer.user.js
 // ==/UserScript==
 
-const apikey = 'YOUR API KEY'
+const apikey = 'YOUR API KEY HERE'
 const callFromItemMarket = true
 const callFromBazaar = true
 const lessToTheMarketPrice = 10;
@@ -94,8 +94,9 @@ const observer = new MutationObserver((mutations) => {
                   let itemAmount = this.parentElement?.parentElement.parentElement.parentElement.parentElement.querySelector(".item-amount")?.textContent;
                   let amount = this.parentElement.parentElement.parentElement.querySelector('.clear-all');
                   hack(this,price);
-                  if (amount !== null)
+                  if (amount !== null && itemAmount !== '') {
                     hack(amount,itemAmount);
+                  }
                   this.dispatchEvent(event);
               })
             }
