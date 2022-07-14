@@ -99,6 +99,7 @@ const observer = new MutationObserver((mutations) => {
                     hack(amount,itemAmount);
                   }
                   this.dispatchEvent(event);
+                  this.blur();
               })
             }
           })
