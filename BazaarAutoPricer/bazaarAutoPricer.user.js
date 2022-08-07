@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bazaar Auto Price - PityYouWeak
 // @namespace    PityYouWeak
-// @version      1.0
+// @version      1.1
 // @description  description
 // @author       PityYouWeak
 // @match        *.torn.com/bazaar.php*
@@ -104,24 +104,21 @@ const observer = new MutationObserver((mutations) => {
             }
           })
         }
-          else if (input2) {
-              const itemID = input2.parentElement.parentElement.parentElement.querySelector('img').src.split('items/')[1]
-              input2.addEventListener('focus', function(e) {
-              let hasRemove = this.parentElement.parentElement.parentElement.querySelector('[class^=remove]');
-                  if (hasRemove) {
-              lmp(itemID).then((price) => {
-                  let itemAmount = this.parentElement?.parentElement.parentElement.parentElement.parentElement.querySelector(".item-amount")?.textContent;
-                  let amount = this.parentElement.parentElement.parentElement.querySelector('.clear-all');
-                  hack(this,price);
-                  if (amount !== null && itemAmount !== '') {
-                    hack(amount,itemAmount);
-                  }
-                  this.dispatchEvent(event);
-                  this.blur();
+        else if (input2) {
+          const itemID = input2.parentElement.parentElement.parentElement.querySelector('img').src.split('items/')[1]
+          input2.addEventListener('focus', function(e) {
+          let hasRemove = this.parentElement.parentElement.parentElement.querySelector('[class^=remove]');
+          if (hasRemove || !doneUpdate) {
+            lmp(itemID).then((price) => {
+                let itemAmount = this.value;
+                hack(this,price);
+                this.dispatchEvent(e);
+                this.blur();
+                this.removeEventListener('focus',input2);
               })
             }
-          })
-          }
+          },{once: true})
+        }
       }
     }
   }
