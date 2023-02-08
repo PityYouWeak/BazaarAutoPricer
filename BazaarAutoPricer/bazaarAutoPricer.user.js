@@ -94,8 +94,9 @@ const observer = new MutationObserver((mutations) => {
               lmp(itemID).then((price) => {
                   let itemAmount = this.parentElement?.parentElement.parentElement.parentElement.parentElement.querySelector(".item-amount")?.textContent;
                   let amount = this.parentElement.parentElement.parentElement.querySelector('.clear-all');
+                  let chkBox = this.parentElement?.parentElement.parentElement.parentElement.parentElement.querySelector(".checkbox-css");
                   hack(this,price);
-                  if (amount !== null && itemAmount !== '') {
+                  if (amount !== null && itemAmount !== '' && chkBox == null) {
                     hack(amount,itemAmount);
                   }
                   this.dispatchEvent(event);
