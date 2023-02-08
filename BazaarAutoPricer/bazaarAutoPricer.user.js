@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bazaar Auto Price - PityYouWeak
 // @namespace    PityYouWeak
-// @version      1.1
+// @version      1.2
 // @description  description
 // @author       PityYouWeak
 // @match        *.torn.com/bazaar.php*
