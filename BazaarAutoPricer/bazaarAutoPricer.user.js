@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bazaar Auto Price - PityYouWeak
 // @namespace    PityYouWeak
-// @version      1.2
+// @version      1.3
 // @description  description
 // @author       PityYouWeak
 // @match        *.torn.com/bazaar.php*
@@ -89,8 +89,6 @@ const observer = new MutationObserver((mutations) => {
         if (input) {
           const itemID = input.parentElement?.parentElement.parentElement.parentElement.parentElement.querySelector('img').src.split('items/')[1];//li.querySelector('img').src.split('items/')[1]
           input.addEventListener('focus', function(e) {
-              let hasRemove = this.parentElement.parentElement.parentElement.querySelector('[class^=remove]');
-              if (this.value === '' || hasRemove) {
               lmp(itemID).then((price) => {
                   let itemAmount = this.parentElement?.parentElement.parentElement.parentElement.parentElement.querySelector(".item-amount")?.textContent;
                   let amount = this.parentElement.parentElement.parentElement.querySelector('.clear-all');
@@ -102,8 +100,7 @@ const observer = new MutationObserver((mutations) => {
                   this.dispatchEvent(event);
                   this.blur();
               })
-            }
-          })
+            },{once: true})
         }
         else if (input2) {
           const itemID = input2.parentElement.parentElement.parentElement.querySelector('img').src.split('items/')[1]
