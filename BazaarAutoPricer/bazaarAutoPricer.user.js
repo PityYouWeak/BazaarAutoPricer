@@ -10,20 +10,19 @@
 // ==/UserScript==
 
 const apikey = 'YOUR API KEY'
-//const callFromItemMarket = true
 const callFromBazaar = true
 const lessToTheMarketPrice = 10;
 
 const torn_api = async (args) => {
   const a = args.split('.');
   const b = a[1].split('/');
-  //if (a.length!==4) throw(`Bad argument in torn_api(args, key): ${args}`)
   return new Promise((resolve, reject) => {
     GM_xmlhttpRequest ( {
       method: "GET",
-      url: `https://api.torn.com/${a[0]}/${b[0]}?selections=&key=${apikey}`,
+      url: `https://api.torn.com/v2/${a[0]}/${b[0]}/itemmarket?offset=0`,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+          "Authorization":  `${apikey}`
       },
       onload: (response) => {
           try {
@@ -52,21 +51,9 @@ async function lmp(itemID) {
 
   let lowest_market_price = null
 
-  // if (callFromItemMarket == true)
-  // {
-  //    const prices = await torn_api(`market.${itemID}.itemmarket`)
-  //    if (prices.error) {APIERROR = true; return 'API key error'}
-  //    for (const market in prices) {
-  //     for (const lid in prices[market]) {
-  //      if (lowest_market_price === null) lowest_market_price = prices[market][lid].cost
-  //      else if (prices[market][lid].cost < lowest_market_price) lowest_market_price = prices[market][lid].cost
-  //     }
-  //   }
-  // }
-
   if (callFromBazaar == true)
   {
-   const bazaarPrices = await torn_api(`market.${itemID}.bazaar`)
+const bazaarPrices = await torn_api(`market.${itemID}.bazaar`)
 
    if (bazaarPrices.error){APIERROR = true; return 'API key error'}
      for (const market in bazaarPrices) {
