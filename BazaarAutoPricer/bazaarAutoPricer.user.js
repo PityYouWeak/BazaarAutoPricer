@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bazaar Auto Price - PityYouWeak
 // @namespace    PityYouWeak
-// @version      1.3
+// @version      2.0
 // @description  description
 // @author       PityYouWeak
 // @match        *.torn.com/bazaar.php*
@@ -22,7 +22,7 @@ const torn_api = async (args) => {
       url: `https://api.torn.com/v2/${a[0]}/${b[0]}/itemmarket?offset=0`,
       headers: {
         "Content-Type": "application/json",
-          "Authorization":  `${apikey}`
+          "Authorization":  `ApiKey ${apikey}`
       },
       onload: (response) => {
           try {
@@ -56,12 +56,7 @@ async function lmp(itemID) {
 const bazaarPrices = await torn_api(`market.${itemID}.bazaar`)
 
    if (bazaarPrices.error){APIERROR = true; return 'API key error'}
-     for (const market in bazaarPrices) {
-      for (const lid in bazaarPrices[market]) {
-        if (lowest_market_price === null) lowest_market_price = bazaarPrices[market][lid].cost
-        else if (bazaarPrices[market][lid].cost < lowest_market_price) lowest_market_price = bazaarPrices[market][lid].cost
-      }
-    }
+   lowest_market_price = bazaarPrices['itemmarket']['listings'][0].price
   }
 
   return lowest_market_price - lessToTheMarketPrice;
